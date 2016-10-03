@@ -503,9 +503,14 @@ lambda x :
  * # 列挙型
  */
 
-/* "C" */
+/* "C, C++" */
+enum X {y, z = 5, w} x;
 
+/* "C#" */
+enum X : long {y, z = 5, w}
+(int)X.z
 
+/* "Java" */
 
 
 
