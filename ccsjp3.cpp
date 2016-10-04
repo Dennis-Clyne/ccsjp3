@@ -1,13 +1,39 @@
 # CCSJP3
 # C, C++, C#, Java, Python3を忘れないために.
 
+# 実行環境
+# クラス, 関数, メンバ変数の命名規則
+# ライブラリその他の読み込み等
+# 名前空間
+# エントリポイント, コマンドライン引数
+# 入出力
+# コメント
+# NULL
+# 真偽
+# 型変換, 型キャスト
+# 文字列クラス関係の変換
+# 定数, 静的変数
+# 型推論
+# if文
+# for文, foreach文
+# while文, do-while文
+# 配列, 多次元配列, 配列のサイズ
+# 関数, expression-bodied, ローカル関数, 仮引数, 
+  デフォルト引数, オプション引数, 名前付き引数, 
+  可変長引数, アドレス渡し, 参照渡し, オーバーロード
+# ラムダ式, 匿名関数
+# 列挙型
+# 例外処理
+# 構造体
+# クラス
+
 /*
  * # 実行環境
  */
 
 
 /*
- * # クラス, 関数, メンバ変数のケース
+ * # クラス, 関数, メンバ変数の命名規則
  */
 
 /* "C#" */
@@ -44,10 +70,11 @@ from X import x
  */
 
 /* "C++" */
-namesapce x;
+namespace X {}
 using namespace x;
 
 /* "C#" */
+namespace X {}
 using
 
 /* "Java" */
@@ -57,8 +84,7 @@ package
 
 
 /*
- * # エントリポイント
- * # コマンドライン引数
+ * # エントリポイント, コマンドライン引数
  */
 
 /* "C, C++" */
@@ -69,7 +95,7 @@ static void Main(string[] args)
 stringはStringでも可. stringはStringクラスのエイリアス.
 
 /* "Java" */
-public static void main(String args[])
+public static void main(String[] args)
 
 /* "Python3" */
 if __name__ == '__main__' :
@@ -264,7 +290,7 @@ var
 
 
 /*
- * # if
+ * # if文
  */
 
 /* "C, C++, C#, Java" */
@@ -298,7 +324,7 @@ C#はfall through禁止. 連続したcaseの場合のみ可.
 switchなし.
 
 /*
- * # for, foreach
+ * # for文, foreach文
  */
 
 /* "C, C++, C#, Java" */
@@ -318,7 +344,7 @@ for in :
 
 
 /*
- * # while, do while
+ * # while文, do-while文
  */
 
 /* "C, C++, C#, Java" */
@@ -377,6 +403,7 @@ x.GetLength()
 多次元配列の時, 引数に次元数.
 
 /* "Java" */
+宣言の[]は型に付けても変数につけても良い.
 int[] x;
 x = new int[10];
 
@@ -511,6 +538,126 @@ enum X : long {y, z = 5, w}
 (int)X.z
 
 /* "Java" */
+enum X {y, z, w}
+
+/* "Python3" */
+class X(Enum) : 
+        y = 0
+        z = 5
+        w = 6
+print(X.y.name)
+print(X.y.value)
+
+
+/*
+ * # 例外処理
+ */
+
+/* "C" */
+なし.
+
+/* "C++" */
+try {
+        throw
+} catch () {
+} catch (...) {
+}
+
+/* "C#" */
+throw
+
+try {
+} catch() when() {
+} finally {
+}
+
+/* "Java" */
+throw
+throws
+
+try {
+} catch() {
+} finally {
+}
+
+/* "Python3" */
+try :
+except :
+else :
+finally :
+
+
+/*
+ * # 構造体
+ */
+
+/* "C" */
+struct X {
+private:
+} x;
+
+struct X x;
+
+/* "C++" */
+struct X {
+        X(int x) : x(x){}
+        ~X(){}
+        int x;
+        virtual void f(){}
+};
+
+struct Y : public X {
+        Y(int x) : X(x) {}
+        void f(){}
+};
+
+X *y = new Y();
+
+/* "C#" */
+struct X {
+        public int x;
+}
+メンバを明示的に初期化しなかった場合は0またはnull初期化される.
+この仕様のために引数なしコンストラクタが不可.
+
+static X x;
+
+/* "Java" */
+
+
+/*
+ * # クラス
+ */
+
+/* "C" */
+なし.
+
+/* "C++" */
+class X {
+protected:
+        const int x = 10;
+public:
+        X(int x) : x(x) {}
+        X(const X &z) {}
+        virtual int f(){}
+        ~X();
+};
+
+class Y : public X {
+public:
+        Y(int x) : X(x) {}
+        int f(){}
+};
+
+X *x = new Y();
+
+/* "C#" */
+class X {
+};
+
+X x = new X();
+
+
 
 
 
