@@ -18,18 +18,42 @@
 # for文, foreach文
 # while文, do-while文
 # 配列, 多次元配列, 配列のサイズ
+# 動的確保, インスタンス化
 # 関数, expression-bodied, ローカル関数, 仮引数, 
   デフォルト引数, オプション引数, 名前付き引数, 
   可変長引数, アドレス渡し, 参照渡し, オーバーロード
 # ラムダ式, 匿名関数
 # 列挙型
 # 例外処理
+# アクセス修飾子
 # 構造体
 # クラス
+# 関数ポインタ, デリゲート
+# インターフェース
+
 
 /*
  * # 実行環境
  */
+
+/* "C, C++" */
+アーキテクチャごとのアセンブラにコンパイル
+-> オブジェクトファイルにアセンブルしてバイナリにして実行.
+
+/* "C#" */
+ネイティブコードにコンパイルして.net framework上で実行.
+jitコンパイルで動かす.
+aotコンパイルで動かす.
+
+/* "Java" */
+バイトコードにコンパイルしてjvm上で実行.
+コードが一定の処理量を超えた場合のみ
+コンパイルされるっぽい?(hotspot)
+hotspotのしきい値に満たない場合はjitコンパイルで実行される?
+jvmによるのかもしれない.
+
+/* "Python3" */
+バイトコードにコンパイルしてpython vm上で実行される.
 
 
 /*
@@ -426,6 +450,11 @@ x[index].length
 
 
 /*
+ * # 動的確保, インスタンス化
+ */
+
+
+/*
  * # 関数, expression-bodied, ローカル関数, 仮引数, 
  * # デフォルト引数, オプション引数, 名前付き引数, 
  * # 可変長引数, アドレス渡し, 参照渡し, オーバーロード
@@ -588,6 +617,42 @@ finally :
 
 
 /*
+ * # アクセス修飾子
+ */
+
+/* "C" */
+public:
+private:
+構造体のdefaultはpublic:
+
+/* "C++" */
+public: どこからでも
+private: クラス内のみ
+protected: 派生クラスから
+構造体のdefaultはpublic:
+クラスのdefaultはprivate:
+
+/* "C#" */
+public どこからでも
+private クラス内のみ
+protected 派生クラスから
+internal 同じアセンブリ(DLL)内のみ
+defaultはprivate
+
+/* "Java" */
+public どこからでも
+private クラス内のみ
+protected 同じパッケージ内, 派生クラスから
+defaultは同じパッケージ内のみ
+
+/* "Python3" */
+アクセス修飾子はないが, アンダースコアで表す.
+_ 慣習的に外部からアクセスしない.
+__ 参照が制限される(アクセスできない).
+__xでもinstance._ClassName__xとするとアクセスできる.
+
+
+/*
  * # 構造体
  */
 
@@ -657,9 +722,33 @@ class X {
 
 X x = new X();
 
+/* "Java" */
+
+/* "Python3" */
+class X :
+        """document string"""
+        def __init__(self, x) :
+                self._x = x
+        def f(self) :
+                print(self._x)
+        def __del__(self) :
+
+class Y(X) :
+        def __init__(self, x) :
+                super(Y, self).__init__(x)
+        def f(self) :
+                print(self._x + 10)
+
+x = Y();
 
 
+/*
+ * # 関数ポインタ, デリゲート
+ */
 
+/*
+ * # インターフェース
+ */
 
 
 
