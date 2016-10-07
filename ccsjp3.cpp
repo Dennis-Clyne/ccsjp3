@@ -172,6 +172,10 @@ System.out.println(x);
 x = input()
 print('x = {}'.format(x))
 
+str = raw_input().split()
+
+x = map(int, raw_input().split())
+
 
 /*
  * # コメント
