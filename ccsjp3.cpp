@@ -2,7 +2,7 @@
 # C, C++, C#, Java, Python3を忘れないために.
 
 # 実行環境
-# クラス, 関数, メンバ変数の命名規則
+# 命名規則
 # ライブラリその他の読み込み等
 # 名前空間
 # エントリポイント, コマンドライン引数
@@ -11,7 +11,7 @@
 # NULL
 # 真偽
 # 型変換, 型キャスト
-# 文字列クラス関係の変換
+# 文字列, 文字列クラス関係の変換
 # 定数, 静的変数
 # 型推論
 # if文
@@ -25,11 +25,12 @@
 # ラムダ式, 匿名関数
 # 列挙型
 # 例外処理
-# アクセス修飾子
+# アクセス修飾子, アクセシビリティ
 # 構造体
 # クラス
-# 関数ポインタ, デリゲート
+# 演算子のオーバーロード, オペレータのオーバーロード
 # インターフェース
+# 関数ポインタ, デリゲート
 
 
 /*
@@ -57,7 +58,7 @@ jvmによるのかもしれない.
 
 
 /*
- * # クラス, 関数, メンバ変数の命名規則
+ * # 命名規則
  */
 
 /* "C#" */
@@ -65,7 +66,7 @@ jvmによるのかもしれない.
 
 /* "Java" */
 classのみUpperCamelcase.
-関数とメンバ変数はLowerCamelcase.
+関数とメンバ変数はlowerCamelcase.
 
 
 /* 
@@ -115,8 +116,8 @@ package
 int main(int argc, char *argv[])
 
 /* "C#" */
-static void Main(string[] args)
-stringはStringでも可. stringはStringクラスのエイリアス.
+static void Main(String[] args)
+Stringはstringでも可. stringはStringクラスのエイリアス.
 
 /* "Java" */
 public static void main(String[] args)
@@ -138,13 +139,15 @@ fgets(c, sizeof (c), stdin);
 fprintf(stdout, "%s", c);
 
 /* "C++" */
-cin >> x;
-cout << x;
+std::cin >> x;
+std::cout << x << std::endl;
 
 /* "C#" */
-Console.ReadLine(x);
-Console.WriteLine("x = {0}", x);
-Console.Write("x = {0]\n", x);
+System.Console.ReadLine(x);
+System.Console.WriteLine("x = {0}", x);
+System.Console.Write("x = {0]\n", x);
+
+Console.ReadLine().Split(' ');
 
 /* "Java" */
 InputStreamReader is = new InputStreamReader(System.in);
@@ -159,7 +162,7 @@ try {
 System.xxがストリーム.
 
 Scannerクラスを使う方法
-Scanner scan = new Scanner(Sytem.in);
+Scanner scan = new Scanner(System.in);
 String str = scan.next();
 int x = scan.nextInt();
 System.out.println(str);
@@ -233,6 +236,15 @@ float.Parse()
 Convert.ToInt32()
 Convertクラスで変換するとnullを渡してもerrorにならない.
 
+is演算子で型を調べることが可能.
+x is int
+c# 7からはisで調べると同時に新しい変数に代入が可能.
+x is int y
+
+as演算子で参照型(class)のみキャスト可能. 
+型変換不可能なときはnull返却.
+x as int
+
 /* "Java" */
 Integer.parseInt()
 Integer.valueOf()
@@ -246,12 +258,16 @@ float()
 
 
 /*
- * # 文字列クラス関係の変換
+ * # 文字列, 文字列クラス関係の変換
  */
 /* "C" */
-なし.
+'c'
+"string"
+文字列クラスなし.
 
 /* "C++" */
+'c'
+"string"
 std::to_string()
 std::stoi()
 std::stod()
@@ -259,6 +275,8 @@ std::stof()
 c_str()
 
 /* "C#" */
+'c'
+"string"
 str = x.ToString();
 int.Parse(str)
 float.Parse(str)
@@ -266,12 +284,17 @@ Convert.ToString()
 Convertクラスで変換するとnullを渡してもerrorにならない.
 
 /* "Java" */
+'c'
+"string"
 Integer.toString()
 String.valueOf()
 Integer.parseInt()
 Integer.valueOf()
 
 /* "Python3" */
+'string'
+"string"
+シングルクォートとダブルクォートとの区別なし.
 str()
 int()
 普通のPython3の型キャストと同じ
@@ -283,8 +306,12 @@ int()
 
 /* "C, C++, C#" */
 const
+static
 
 /* "C#" */
+const
+constは暗黙的static
+
 readonly
 classのメンバに対してのみ可.
 
@@ -495,6 +522,11 @@ f(ref x);
 int f(ref int x) {}
 参照渡しは呼び出し側にもref必要.
 
+C#は値型と参照型に分かれている. 参照型は必ず参照渡し.
+文字列型, 配列, オブジェクト型, 
+クラス, インターフェース, デリゲートは参照型.
+構造体は値型だから注意.
+
 オーバーロード可.
 
 /* "Java" */
@@ -617,7 +649,7 @@ finally :
 
 
 /*
- * # アクセス修飾子
+ * # アクセス修飾子, アクセシビリティ
  */
 
 /* "C" */
@@ -680,12 +712,31 @@ X *y = new Y();
 
 /* "C#" */
 struct X {
-        public int x;
+        private int x;
+        public X(int x) {
+                this.x = x;
+        }
+
+        public X(X copyX) {
+                x = copyX.x;
+        }
+
+        public int XAccessor {
+                set {this.x = value;}
+                get {return this.x;}
+        }
+        public int F() {}
 }
+
+X x = new X(100); 
+コンストラクタが無い場合はnew不要.
+(値型でインスタンス化が不要なため)
+
 メンバを明示的に初期化しなかった場合は0またはnull初期化される.
 この仕様のために引数なしコンストラクタが不可.
+引数なしデストラクタも不可.
 
-static X x;
+継承不可.
 
 /* "Java" */
 
@@ -703,24 +754,87 @@ protected:
         const int x = 10;
 public:
         X(int x) : x(x) {}
-        X(const X &z) {}
-        virtual int f(){}
-        ~X();
+        X(const X &copyX) {}
+        virtual int f() {}
+        ~X() {};
 };
 
 class Y : public X {
 public:
         Y(int x) : X(x) {}
-        int f(){}
+        int f() {}
+        ~Y() {}
 };
 
 X *x = new Y();
 
 /* "C#" */
 class X {
-};
+        protected int x = 10;
 
-X x = new X();
+        public X(int x) {
+                this.x = x;
+        }
+
+        public X(X copyX) {
+                x = copyX.x;
+        }
+
+        ~X() {}
+        public int XAccessor {
+                set {this.x = value;}
+                get {return this.x;}
+        }
+        public virtual int F() {}
+}
+
+class Y : X {
+        private int id {get; set;}
+        public Y(int x) : base (x) {}
+        public override int F() {}
+        ~Y() {}
+}
+
+X x = new Y(); 
+Xが静的なクラスだからF()を仮想関数や
+隠蔽しなかった場合はXのF()が呼ばれる.
+x.x = 100;
+Console.WriteLine(x.x);
+
+XAccessorはプロパティという機能でクラス内からは関数に見え, 
+外からはメンバ変数に見える.
+Yクラスのid変数みたいに省略することが可能.
+C# 6からはget-onlyプロパティを定義可能.
+Xのx変数を protected int x {get;} にすることでコンストラクタで
+のみ値を代入可能になる.
+
+基底クラスの関数と同じ名前の関数を派生クラスで使うとき, 
+public new int F() {} で基底クラスの関数を明示的に隠蔽できる.
+
+コピーコンストラクタがない.
+public X(X copyX) {
+        x = copyX.x;
+}
+でコピーコンストラクタ的なものを作れる.
+
+X[] x = new X[3];
+for (int i = 0; i < x.Length; i++) {
+        x[i] = new X();
+}
+classの配列は個々にインスタンス化が必要.
+
+seald class X {}
+クラスにseald修飾子をつけると継承を禁止にできる.
+
+abstract class X {}
+クラスにabstract修飾子をつけると抽象クラスになる.
+抽象クラスは継承専用で実態を作れない.
+
+デストラクタはガベージコレクション時に呼び出されるため, 
+いつ実行されるかわからない. だからあまり使われないぽい.
+明示的に破棄したい場合はusingのDisposeを使う.
+
+多重継承不可.
 
 /* "Java" */
 
@@ -729,13 +843,16 @@ class X :
         """document string"""
         def __init__(self, x) :
                 self._x = x
+
         def f(self) :
                 print(self._x)
+
         def __del__(self) :
 
 class Y(X) :
         def __init__(self, x) :
                 super(Y, self).__init__(x)
+
         def f(self) :
                 print(self._x + 10)
 
@@ -743,11 +860,16 @@ x = Y();
 
 
 /*
- * # 関数ポインタ, デリゲート
+ * # 演算子のオーバーロード, オペレータのオーバーロード
  */
+
 
 /*
  * # インターフェース
+ */
+
+/*
+ * # 関数ポインタ, デリゲート
  */
 
 
