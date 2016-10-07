@@ -143,9 +143,9 @@ std::cin >> x;
 std::cout << x << std::endl;
 
 /* "C#" */
-System.Console.ReadLine(x);
-System.Console.WriteLine("x = {0}", x);
-System.Console.Write("x = {0]\n", x);
+Console.ReadLine(x);
+Console.WriteLine("x = {0}", x);
+Console.Write("x = {0]\n", x);
 
 Console.ReadLine().Split(' ');
 
