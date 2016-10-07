@@ -147,7 +147,7 @@ Console.ReadLine(x);
 Console.WriteLine("x = {0}", x);
 Console.Write("x = {0]\n", x);
 
-Console.ReadLine().Split(' ');
+String[] str = Console.ReadLine().Split(' ');
 
 /* "Java" */
 InputStreamReader is = new InputStreamReader(System.in);
